@@ -370,7 +370,7 @@ const pineconeGroupRecommendations = async (products, limit = 10) => {
  *         stock: 10
  *         rating: 4.5
  *         numReviews: 10
- *         createdAt: "2022-01-01T00:00:00.000Z"
+ *         createdAt: "2025-01-01T00:00:00.000Z"
  */
 
 /**

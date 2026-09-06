@@ -27,25 +27,25 @@ const LIGHT_BG = '#F7FAF7';
 
 const milestones = [
   {
-    year: '2018',
+    year: '2024',
     title: 'Launch',
     description:
       'Started VoldiMart with a mission to curate gear that empowers creators and everyday innovators.',
   },
   {
-    year: '2020',
+    year: '2025',
     title: 'Global Warehouses',
     description:
       'Opened regional fulfillment hubs in Austin, Berlin, and Singapore to ship faster than ever.',
   },
   {
-    year: '2022',
+    year: '2025',
     title: 'Creator Collective',
     description:
       'Introduced our invite-only creator program to co-design exclusive bundles and gear edits.',
   },
   {
-    year: '2024',
+    year: '2026',
     title: '50k+ Members',
     description:
       'Celebrated 50,000 VIP members and expanded our line to include modular smart home ecosystems.',

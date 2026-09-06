@@ -228,7 +228,7 @@ exports[`About snapshot matches the rendered markup 1`] = `
               <span
                 class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
               >
-                2018
+                2024
               </span>
             </div>
             <h6
@@ -255,7 +255,7 @@ exports[`About snapshot matches the rendered markup 1`] = `
               <span
                 class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
               >
-                2020
+                2025
               </span>
             </div>
             <h6
@@ -282,7 +282,7 @@ exports[`About snapshot matches the rendered markup 1`] = `
               <span
                 class="MuiChip-label MuiChip-labelMedium css-6od3lo-MuiChip-label"
               >
-                2022
+                2025
               </span>
             </div>
             <h6
