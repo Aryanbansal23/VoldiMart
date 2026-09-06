@@ -1,21 +1,19 @@
 {
-  "name": "@hoangsonww/ecommerce-fullstack-website-frontend",
+  "name": "voldimart",
   "displayName": "VoldiMart Ecommerce Website",
   "description": "A fullstack ecommerce website built with React, Node.js, Express, MongoDB, and Material-UI.",
-  "author": "Son Nguyen",
+  "author": "Aryan Bansal",
   "license": "MIT",
   "homepage": "/",
   "bugs": {
-    "url": "https://github.com/hoangsonww/MERN-Stack-Ecommerce-App/issues"
-  },
-  "publishConfig": {
-    "registry": "https://npm.pkg.github.com"
+    "url": "https://github.com/Aryanbansal23/VoldiMart/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/hoangsonww/MERN-Stack-Ecommerce-App.git"
+    "url": "git+https://github.com/Aryanbansal23/VoldiMart.git"
   },
   "version": "1.1.0",
+  "private": true,
   "dependencies": {
     "@emotion/react": "^11.11.4",
     "@emotion/styled": "^11.11.5",
@@ -48,7 +46,6 @@
     "three": "^0.169.0",
     "web-vitals": "^2.1.4"
   },
-  "private": true,
   "scripts": {
     "start": "craco start",
     "build": "craco build",

@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { Link } from 'react-router-dom';
 
 import {
@@ -16,6 +17,11 @@ import {
 
 import SearchOffRoundedIcon from '@mui/icons-material/SearchOffRounded';
 import ArrowOutwardRoundedIcon from '@mui/icons-material/ArrowOutwardRounded';
+
+const GOLD = '#D4AF37';
+const GOLD_DARK = '#B08D20';
+const DARK_GREEN = '#123C2B';
+const GREEN = '#1F6F50';
 
 function SearchResults({
   results,
@@ -37,15 +43,20 @@ function SearchResults({
     maxHeight: isModal ? '60vh' : '50vh',
     overflowY: 'auto',
     p: isModal ? 1 : 1.25,
-    borderRadius: 4,
+    borderRadius: 3.5,
 
-    background:
-      'linear-gradient(145deg, rgba(16, 42, 35, 0.98), rgba(8, 28, 23, 0.98))',
+    background: `linear-gradient(
+      145deg,
+      rgba(18, 60, 43, 0.98),
+      rgba(9, 39, 28, 0.99)
+    )`,
 
-    border: '1px solid rgba(201, 162, 39, 0.28)',
+    border: `1px solid ${GOLD}45`,
 
-    boxShadow:
-      '0 24px 70px rgba(0, 0, 0, 0.38), 0 0 0 1px rgba(255,255,255,0.02)',
+    boxShadow: `
+      0 24px 70px rgba(0, 0, 0, 0.35),
+      0 0 35px ${GOLD}12
+    `,
 
     backdropFilter: 'blur(18px)',
 
@@ -54,7 +65,7 @@ function SearchResults({
     },
 
     '&::-webkit-scrollbar-thumb': {
-      background: 'rgba(201, 162, 39, 0.45)',
+      background: `${GOLD}70`,
       borderRadius: 10,
     },
 
@@ -65,22 +76,25 @@ function SearchResults({
 
   const listItemSx = {
     width: '100%',
-    borderRadius: 3,
+    borderRadius: 2.5,
     mb: 0.5,
     px: isModal ? 2 : 1.5,
     py: 1.2,
+
     textDecoration: 'none',
     color: 'inherit',
+
     transition:
       'transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease',
 
     '&:hover': {
-      background:
-        'linear-gradient(90deg, rgba(201,162,39,0.12), rgba(255,255,255,0.025))',
-
+      background: `linear-gradient(
+        90deg,
+        ${GOLD}18,
+        rgba(255,255,255,0.025)
+      )`,
       transform: 'translateX(4px)',
-
-      boxShadow: 'inset 3px 0 0 #c9a227',
+      boxShadow: `inset 3px 0 0 ${GOLD}`,
     },
   };
 
@@ -88,6 +102,7 @@ function SearchResults({
     <Paper elevation={0} sx={paperSx}>
       {results.length > 0 ? (
         <>
+          {/* Header */}
           <Box
             sx={{
               px: 1.5,
@@ -101,10 +116,10 @@ function SearchResults({
             <Typography
               variant="caption"
               sx={{
-                color: 'rgba(255,255,255,0.55)',
+                color: 'rgba(255,255,255,0.58)',
                 textTransform: 'uppercase',
                 letterSpacing: '0.14em',
-                fontWeight: 700,
+                fontWeight: 800,
               }}
             >
               Search Results
@@ -114,12 +129,12 @@ function SearchResults({
               label={`${Math.min(results.length, limit)} found`}
               size="small"
               sx={{
-                height: 22,
+                height: 23,
                 fontSize: '0.7rem',
-                fontWeight: 700,
-                color: '#e5c96a',
-                bgcolor: 'rgba(201,162,39,0.12)',
-                border: '1px solid rgba(201,162,39,0.25)',
+                fontWeight: 800,
+                color: GOLD,
+                bgcolor: `${GOLD}14`,
+                border: `1px solid ${GOLD}40`,
               }}
             />
           </Box>
@@ -137,6 +152,7 @@ function SearchResults({
                   onClick={handleItemClick}
                   sx={listItemSx}
                 >
+                  {/* Product Image */}
                   <ListItemAvatar sx={{ minWidth: 64 }}>
                     <Avatar
                       alt={product.name}
@@ -146,12 +162,14 @@ function SearchResults({
                         width: 52,
                         height: 52,
                         borderRadius: 2.5,
-                        bgcolor: 'rgba(201,162,39,0.1)',
-                        border: '1px solid rgba(201,162,39,0.2)',
+                        bgcolor: `${GOLD}12`,
+                        border: `1px solid ${GOLD}35`,
+                        objectFit: 'cover',
                       }}
                     />
                   </ListItemAvatar>
 
+                  {/* Product Details */}
                   <ListItemText
                     primary={
                       <Stack
@@ -163,8 +181,8 @@ function SearchResults({
                         <Typography
                           variant="subtitle2"
                           sx={{
-                            fontWeight: 700,
-                            color: '#f8fafc',
+                            fontWeight: 800,
+                            color: '#fff',
                             overflow: 'hidden',
                             textOverflow: 'ellipsis',
                             whiteSpace: 'nowrap',
@@ -176,7 +194,7 @@ function SearchResults({
                         <ArrowOutwardRoundedIcon
                           sx={{
                             fontSize: 17,
-                            color: '#c9a227',
+                            color: GOLD,
                             flexShrink: 0,
                           }}
                         />
@@ -188,13 +206,13 @@ function SearchResults({
                           component="span"
                           sx={{
                             display: 'block',
-                            fontSize: '0.82rem',
-                            fontWeight: 700,
-                            color: '#e5c96a',
+                            fontSize: '0.84rem',
+                            fontWeight: 800,
+                            color: GOLD,
                             mb: 0.35,
                           }}
                         >
-                          ${product.price}
+                          ${Number(product.price || 0).toFixed(2)}
                         </Typography>
 
                         <Typography
@@ -219,8 +237,32 @@ function SearchResults({
               );
             })}
           </List>
+
+          {/* More Results Indicator */}
+          {results.length > limit && (
+            <Box
+              sx={{
+                mt: 0.5,
+                pt: 1,
+                pb: 0.5,
+                textAlign: 'center',
+                borderTop: `1px solid ${GOLD}18`,
+              }}
+            >
+              <Typography
+                variant="caption"
+                sx={{
+                  color: `${GOLD}CC`,
+                  fontWeight: 700,
+                }}
+              >
+                Showing {limit} of {results.length} results
+              </Typography>
+            </Box>
+          )}
         </>
       ) : (
+        /* Empty State */
         <Box
           sx={{
             minHeight: 180,
@@ -234,26 +276,33 @@ function SearchResults({
         >
           <Box
             sx={{
-              width: 58,
-              height: 58,
+              width: 62,
+              height: 62,
               borderRadius: '50%',
               display: 'grid',
               placeItems: 'center',
               mb: 2,
-              color: '#c9a227',
-              background:
-                'linear-gradient(135deg, rgba(201,162,39,0.18), rgba(201,162,39,0.05))',
-              border: '1px solid rgba(201,162,39,0.25)',
+
+              color: GOLD,
+
+              background: `linear-gradient(
+                135deg,
+                ${GOLD}20,
+                ${GOLD}06
+              )`,
+
+              border: `1px solid ${GOLD}40`,
+              boxShadow: `0 8px 30px ${GOLD}12`,
             }}
           >
-            <SearchOffRoundedIcon />
+            <SearchOffRoundedIcon sx={{ fontSize: 29 }} />
           </Box>
 
           <Typography
             variant="subtitle1"
             sx={{
-              fontWeight: 700,
-              color: '#f8fafc',
+              fontWeight: 800,
+              color: '#fff',
               mb: 0.5,
             }}
           >

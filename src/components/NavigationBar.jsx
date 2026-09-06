@@ -1,4 +1,5 @@
 import * as React from 'react';
+
 import {
   AppBar,
   Toolbar,
@@ -40,6 +41,11 @@ import SearchResults from './SearchResults';
 import { apiClient } from '../services/apiClient';
 import { useNotifier } from '../context/NotificationProvider';
 
+const GOLD = '#D4AF37';
+const GOLD_DARK = '#B08D20';
+const DARK_GREEN = '#123C2B';
+const GREEN = '#1F6F50';
+
 const navLinks = [
   {
     label: 'Home',
@@ -72,8 +78,7 @@ function NavigationBar({ cartItemCount }) {
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 
-  const [searchModalOpen, setSearchModalOpen] =
-    React.useState(false);
+  const [searchModalOpen, setSearchModalOpen] = React.useState(false);
 
   const searchBarRef = React.useRef(null);
   const searchResultsRef = React.useRef(null);
@@ -90,10 +95,7 @@ function NavigationBar({ cartItemCount }) {
 
   React.useEffect(() => {
     const checkToken = () => {
-      const token = localStorage.getItem(
-        'MERNEcommerceToken'
-      );
-
+      const token = localStorage.getItem('MERNEcommerceToken');
       setIsLoggedIn(Boolean(token));
     };
 
@@ -104,7 +106,7 @@ function NavigationBar({ cartItemCount }) {
     return () => clearInterval(interval);
   }, []);
 
-  const handleClick = event => {
+  const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -127,7 +129,7 @@ function NavigationBar({ cartItemCount }) {
 
   const debouncedSearch = React.useMemo(
     () =>
-      debounce(async query => {
+      debounce(async (query) => {
         if (query.trim() === '') {
           setSearchResults([]);
           setLoading(false);
@@ -155,10 +157,7 @@ function NavigationBar({ cartItemCount }) {
             });
           }
         } catch (error) {
-          console.error(
-            'Error fetching search results:',
-            error
-          );
+          console.error('Error fetching search results:', error);
 
           setSearchResults([]);
 
@@ -170,7 +169,6 @@ function NavigationBar({ cartItemCount }) {
           setLoading(false);
         }
       }, 320),
-
     [notify]
   );
 
@@ -178,7 +176,7 @@ function NavigationBar({ cartItemCount }) {
     return () => debouncedSearch.cancel();
   }, [debouncedSearch]);
 
-  const handleSearchChange = event => {
+  const handleSearchChange = (event) => {
     const value = event.target.value;
 
     setSearchQuery(value);
@@ -186,16 +184,15 @@ function NavigationBar({ cartItemCount }) {
     debouncedSearch(value);
   };
 
-  const handleSearchModalClose =
-    React.useCallback(() => {
-      setSearchModalOpen(false);
+  const handleSearchModalClose = React.useCallback(() => {
+    setSearchModalOpen(false);
 
-      debouncedSearch.cancel();
+    debouncedSearch.cancel();
 
-      setSearchResults([]);
-      setSearchQuery('');
-      setLoading(false);
-    }, [debouncedSearch]);
+    setSearchResults([]);
+    setSearchQuery('');
+    setLoading(false);
+  }, [debouncedSearch]);
 
   const handleSearchModalOpen = () => {
     setSearchModalOpen(true);
@@ -214,7 +211,7 @@ function NavigationBar({ cartItemCount }) {
   };
 
   React.useEffect(() => {
-    const handleClickOutside = event => {
+    const handleClickOutside = (event) => {
       if (
         searchBarRef.current &&
         !searchBarRef.current.contains(event.target) &&
@@ -225,16 +222,10 @@ function NavigationBar({ cartItemCount }) {
       }
     };
 
-    document.addEventListener(
-      'mousedown',
-      handleClickOutside
-    );
+    document.addEventListener('mousedown', handleClickOutside);
 
     return () => {
-      document.removeEventListener(
-        'mousedown',
-        handleClickOutside
-      );
+      document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
 
@@ -252,51 +243,49 @@ function NavigationBar({ cartItemCount }) {
       sx={{
         mb: 4,
 
-        background:
-          'linear-gradient(90deg, #090909 0%, #14110d 45%, #21170c 100%)',
+        background: `
+          linear-gradient(
+            90deg,
+            ${DARK_GREEN} 0%,
+            #0E3022 48%,
+            #092219 100%
+          )
+        `,
 
-        borderBottom:
-          '1px solid rgba(245, 158, 11, 0.25)',
+        borderBottom: `1px solid ${GOLD}45`,
 
-        boxShadow:
-          '0 8px 30px rgba(0,0,0,0.55)',
+        boxShadow: `
+          0 8px 30px rgba(0,0,0,0.32),
+          0 2px 18px ${GOLD}10
+        `,
 
         '& .logo-link': {
           textDecoration: 'none',
-
-          color: '#f8fafc',
-
-          fontWeight: 800,
-
+          color: '#fff',
+          fontWeight: 900,
           fontSize: '1.55rem',
-
-          letterSpacing: '0.08em',
-
+          letterSpacing: '0.04em',
           whiteSpace: 'nowrap',
 
-          textShadow:
-            '0 0 20px rgba(245,158,11,0.35)',
+          textShadow: `0 0 22px ${GOLD}30`,
 
-          transition: '0.25s',
+          transition: 'all 0.25s ease',
 
           '&:hover': {
-            color: '#f59e0b',
+            color: GOLD,
           },
         },
 
         '& .search-bar': {
-          backgroundColor:
-            'rgba(255,255,255,0.055)',
+          backgroundColor: 'rgba(255,255,255,0.07)',
 
-          border:
-            '1px solid rgba(245,158,11,0.18)',
+          border: `1px solid ${GOLD}30`,
 
           borderRadius: 999,
 
           padding: '0.4rem 0.9rem',
 
           display: 'flex',
-
           alignItems: 'center',
 
           minWidth: {
@@ -315,18 +304,12 @@ function NavigationBar({ cartItemCount }) {
 
           transition: 'all 0.3s ease',
 
-          boxShadow:
-            'inset 0 0 15px rgba(0,0,0,0.25)',
+          boxShadow: 'inset 0 0 15px rgba(0,0,0,0.18)',
 
           '&:focus-within': {
-            backgroundColor:
-              'rgba(245,158,11,0.08)',
-
-            borderColor:
-              'rgba(245,158,11,0.65)',
-
-            boxShadow:
-              '0 0 0 3px rgba(245,158,11,0.08)',
+            backgroundColor: `${GOLD}0F`,
+            borderColor: `${GOLD}90`,
+            boxShadow: `0 0 0 3px ${GOLD}12`,
           },
         },
 
@@ -334,11 +317,9 @@ function NavigationBar({ cartItemCount }) {
           marginLeft: '0.5rem',
 
           border: 'none',
-
           outline: 'none',
 
-          color: '#f8fafc',
-
+          color: '#fff',
           backgroundColor: 'transparent',
 
           width: '100%',
@@ -364,6 +345,7 @@ function NavigationBar({ cartItemCount }) {
       >
         {isMobile ? (
           <>
+            {/* Mobile Menu */}
             <IconButton
               size="large"
               edge="start"
@@ -371,7 +353,11 @@ function NavigationBar({ cartItemCount }) {
               aria-label="open navigation"
               onClick={handleClick}
               sx={{
-                color: '#f59e0b',
+                color: GOLD,
+
+                '&:hover': {
+                  backgroundColor: `${GOLD}14`,
+                },
               }}
             >
               <MenuIcon />
@@ -385,26 +371,32 @@ function NavigationBar({ cartItemCount }) {
               PaperProps={{
                 sx: {
                   mt: 1,
+                  minWidth: 210,
 
-                  minWidth: 200,
+                  background: `
+                    linear-gradient(
+                      145deg,
+                      ${DARK_GREEN},
+                      #0A241A
+                    )
+                  `,
 
-                  background:
-                    'linear-gradient(145deg, #121212, #1c160f)',
+                  color: '#fff',
 
-                  color: '#f8fafc',
+                  border: `1px solid ${GOLD}35`,
 
-                  border:
-                    '1px solid rgba(245,158,11,0.2)',
-
-                  boxShadow:
-                    '0 20px 50px rgba(0,0,0,0.65)',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.45)',
 
                   '& .MuiMenuItem-root': {
                     py: 1.2,
 
                     '&:hover': {
-                      backgroundColor:
-                        'rgba(245,158,11,0.1)',
+                      backgroundColor: `${GOLD}12`,
+                    },
+
+                    '& .MuiSvgIcon-root': {
+                      color: GOLD,
+                      marginRight: 10,
                     },
                   },
                 },
@@ -416,17 +408,17 @@ function NavigationBar({ cartItemCount }) {
                   handleSearchModalOpen();
                 }}
               >
+                <SearchIcon />
                 Search
               </MenuItem>
 
               <Divider
                 sx={{
-                  borderColor:
-                    'rgba(245,158,11,0.15)',
+                  borderColor: `${GOLD}20`,
                 }}
               />
 
-              {navLinks.map(link => (
+              {navLinks.map((link) => (
                 <MenuItem
                   key={link.to}
                   onClick={() => {
@@ -434,6 +426,7 @@ function NavigationBar({ cartItemCount }) {
                     navigate(link.to);
                   }}
                 >
+                  {link.icon}
                   {link.label}
                 </MenuItem>
               ))}
@@ -449,8 +442,9 @@ function NavigationBar({ cartItemCount }) {
                   showZero
                   sx={{
                     '& .MuiBadge-badge': {
-                      backgroundColor: '#f59e0b',
-                      color: '#111',
+                      backgroundColor: GOLD,
+                      color: DARK_GREEN,
+                      fontWeight: 800,
                     },
                   }}
                 >
@@ -469,7 +463,17 @@ function NavigationBar({ cartItemCount }) {
                     : navigate('/login');
                 }}
               >
-                {isLoggedIn ? 'Logout' : 'Login'}
+                {isLoggedIn ? (
+                  <>
+                    <LogoutIcon />
+                    Logout
+                  </>
+                ) : (
+                  <>
+                    <LoginIcon />
+                    Login
+                  </>
+                )}
               </MenuItem>
 
               {!isLoggedIn && (
@@ -479,11 +483,13 @@ function NavigationBar({ cartItemCount }) {
                     navigate('/register');
                   }}
                 >
+                  <PersonAddAltIcon />
                   Register
                 </MenuItem>
               )}
             </Menu>
 
+            {/* Mobile Logo */}
             <Typography
               variant="h6"
               component="div"
@@ -499,9 +505,54 @@ function NavigationBar({ cartItemCount }) {
                 VoldiMart
               </Link>
             </Typography>
+
+            {/* Mobile Cart */}
+            <IconButton
+              component={Link}
+              to="/cart"
+              size="small"
+              sx={{
+                color: GOLD,
+
+                '&:hover': {
+                  backgroundColor: `${GOLD}14`,
+                },
+              }}
+            >
+              <Badge
+                badgeContent={cartItemCount}
+                showZero
+                sx={{
+                  '& .MuiBadge-badge': {
+                    backgroundColor: GOLD,
+                    color: DARK_GREEN,
+                    fontWeight: 800,
+                  },
+                }}
+              >
+                <ShoppingCartIcon />
+              </Badge>
+            </IconButton>
+
+            {/* Mobile Search */}
+            <IconButton
+              size="small"
+              onClick={handleSearchModalOpen}
+              sx={{
+                color: '#fff',
+
+                '&:hover': {
+                  color: GOLD,
+                  backgroundColor: `${GOLD}12`,
+                },
+              }}
+            >
+              <SearchIcon />
+            </IconButton>
           </>
         ) : (
           <>
+            {/* Desktop Logo */}
             <Typography
               variant="h6"
               component="div"
@@ -509,7 +560,6 @@ function NavigationBar({ cartItemCount }) {
                 flexGrow: 1,
 
                 display: 'flex',
-
                 alignItems: 'center',
 
                 gap: 1,
@@ -528,29 +578,25 @@ function NavigationBar({ cartItemCount }) {
                 component="span"
                 variant="caption"
                 sx={{
-                  color:
-                    'rgba(245,158,11,0.75)',
-
+                  color: `${GOLD}CC`,
                   whiteSpace: 'nowrap',
-
                   letterSpacing: '0.04em',
+                  fontWeight: 600,
                 }}
               >
                 Elevate Your Everyday Tech
               </Typography>
             </Typography>
 
+            {/* Search */}
             <form
               className="search-bar"
               ref={searchBarRef}
-              onSubmit={e =>
-                e.preventDefault()
-              }
+              onSubmit={(e) => e.preventDefault()}
             >
               <SearchIcon
                 sx={{
-                  color:
-                    'rgba(245,158,11,0.8)',
+                  color: GOLD,
                 }}
               />
 
@@ -571,21 +617,19 @@ function NavigationBar({ cartItemCount }) {
                 <CircularProgress
                   size={18}
                   sx={{
-                    color: '#f59e0b',
+                    color: GOLD,
                     ml: 1,
                   }}
                 />
               )}
             </form>
 
+            {/* Desktop Actions */}
             <Box
               sx={{
                 display: 'flex',
-
                 alignItems: 'center',
-
                 gap: 0.75,
-
                 ml: 'auto',
               }}
             >
@@ -594,7 +638,7 @@ function NavigationBar({ cartItemCount }) {
                 spacing={0.9}
                 alignItems="center"
               >
-                {navLinks.map(link => {
+                {navLinks.map((link) => {
                   const isActive =
                     location.pathname === link.to;
 
@@ -611,28 +655,23 @@ function NavigationBar({ cartItemCount }) {
                         size="small"
                         sx={{
                           color: isActive
-                            ? '#f59e0b'
-                            : 'rgba(255,255,255,0.8)',
+                            ? GOLD
+                            : 'rgba(255,255,255,0.82)',
 
-                          backgroundColor:
-                            isActive
-                              ? 'rgba(245,158,11,0.12)'
-                              : 'transparent',
+                          backgroundColor: isActive
+                            ? `${GOLD}15`
+                            : 'transparent',
 
                           border: isActive
-                            ? '1px solid rgba(245,158,11,0.28)'
+                            ? `1px solid ${GOLD}40`
                             : '1px solid transparent',
 
                           transition: 'all 0.25s ease',
 
                           '&:hover': {
-                            color: '#f59e0b',
-
-                            backgroundColor:
-                              'rgba(245,158,11,0.1)',
-
-                            transform:
-                              'translateY(-1px)',
+                            color: GOLD,
+                            backgroundColor: `${GOLD}12`,
+                            transform: 'translateY(-1px)',
                           },
                         }}
                       >
@@ -643,6 +682,7 @@ function NavigationBar({ cartItemCount }) {
                 })}
               </Stack>
 
+              {/* Auth */}
               {isLoggedIn ? (
                 <Tooltip
                   title="Sign out"
@@ -652,14 +692,11 @@ function NavigationBar({ cartItemCount }) {
                     size="small"
                     onClick={handleLogout}
                     sx={{
-                      color:
-                        'rgba(255,255,255,0.75)',
+                      color: 'rgba(255,255,255,0.75)',
 
                       '&:hover': {
                         color: '#ef4444',
-
-                        backgroundColor:
-                          'rgba(239,68,68,0.1)',
+                        backgroundColor: 'rgba(239,68,68,0.1)',
                       },
                     }}
                   >
@@ -677,14 +714,11 @@ function NavigationBar({ cartItemCount }) {
                       to="/login"
                       size="small"
                       sx={{
-                        color:
-                          'rgba(255,255,255,0.8)',
+                        color: 'rgba(255,255,255,0.8)',
 
                         '&:hover': {
-                          color: '#f59e0b',
-
-                          backgroundColor:
-                            'rgba(245,158,11,0.1)',
+                          color: GOLD,
+                          backgroundColor: `${GOLD}10`,
                         },
                       }}
                     >
@@ -701,14 +735,11 @@ function NavigationBar({ cartItemCount }) {
                       to="/register"
                       size="small"
                       sx={{
-                        color:
-                          'rgba(255,255,255,0.8)',
+                        color: 'rgba(255,255,255,0.8)',
 
                         '&:hover': {
-                          color: '#f59e0b',
-
-                          backgroundColor:
-                            'rgba(245,158,11,0.1)',
+                          color: GOLD,
+                          backgroundColor: `${GOLD}10`,
                         },
                       }}
                     >
@@ -718,6 +749,7 @@ function NavigationBar({ cartItemCount }) {
                 </>
               )}
 
+              {/* Cart */}
               <Tooltip
                 title="View cart"
                 arrow
@@ -727,11 +759,10 @@ function NavigationBar({ cartItemCount }) {
                   to="/cart"
                   size="small"
                   sx={{
-                    color: '#f59e0b',
+                    color: GOLD,
 
                     '&:hover': {
-                      backgroundColor:
-                        'rgba(245,158,11,0.12)',
+                      backgroundColor: `${GOLD}15`,
                     },
                   }}
                 >
@@ -741,9 +772,9 @@ function NavigationBar({ cartItemCount }) {
                     showZero
                     sx={{
                       '& .MuiBadge-badge': {
-                        backgroundColor: '#f59e0b',
-                        color: '#111',
-                        fontWeight: 700,
+                        backgroundColor: GOLD,
+                        color: DARK_GREEN,
+                        fontWeight: 800,
                       },
                     }}
                   >
@@ -756,6 +787,7 @@ function NavigationBar({ cartItemCount }) {
         )}
       </Toolbar>
 
+      {/* Desktop Search Results */}
       {!isMobile &&
         searchResults.length > 0 &&
         anchorRect && (
@@ -765,44 +797,36 @@ function NavigationBar({ cartItemCount }) {
               position: 'absolute',
 
               top: anchorRect.bottom + 12,
-
               left: anchorRect.left,
 
-              width:
-                'min(420px, 85vw)',
+              width: 'min(420px, 85vw)',
 
-              zIndex:
-                theme =>
-                  theme.zIndex.modal - 1,
+              zIndex: (theme) =>
+                theme.zIndex.modal - 1,
 
-              background:
-                'linear-gradient(145deg, #151515, #21170d)',
+              background: DARK_GREEN,
 
-              color: '#f8fafc',
+              color: '#fff',
 
               borderRadius: 3,
 
               boxShadow:
-                '0 22px 48px rgba(0,0,0,0.65)',
+                '0 22px 48px rgba(0,0,0,0.45)',
 
-              border:
-                '1px solid rgba(245,158,11,0.2)',
+              border: `1px solid ${GOLD}35`,
 
               overflow: 'hidden',
             }}
           >
             <SearchResults
               results={searchResults}
-              onResultClick={
-                handleSearchResultClick
-              }
-              setSearchResults={
-                setSearchResults
-              }
+              onResultClick={handleSearchResultClick}
+              setSearchResults={setSearchResults}
             />
           </Box>
         )}
 
+      {/* Mobile Search Dialog */}
       <Dialog
         open={searchModalOpen}
         onClose={handleSearchModalClose}
@@ -810,31 +834,33 @@ function NavigationBar({ cartItemCount }) {
         maxWidth="sm"
         PaperProps={{
           sx: {
-            background:
-              'linear-gradient(145deg, #111111, #1d160e)',
+            background: `
+              linear-gradient(
+                145deg,
+                ${DARK_GREEN},
+                #091F17
+              )
+            `,
 
-            color: '#f8fafc',
+            color: '#fff',
 
-            border:
-              '1px solid rgba(245,158,11,0.22)',
+            border: `1px solid ${GOLD}35`,
 
             boxShadow:
-              '0 25px 70px rgba(0,0,0,0.75)',
+              '0 25px 70px rgba(0,0,0,0.65)',
+
+            borderRadius: 3,
           },
         }}
       >
         <DialogTitle
           sx={{
             display: 'flex',
-
             alignItems: 'center',
+            justifyContent: 'space-between',
 
-            justifyContent:
-              'space-between',
-
-            color: '#f59e0b',
-
-            fontWeight: 700,
+            color: GOLD,
+            fontWeight: 800,
           }}
         >
           Search Products
@@ -843,8 +869,12 @@ function NavigationBar({ cartItemCount }) {
             onClick={handleSearchModalClose}
             size="small"
             sx={{
-              color:
-                'rgba(255,255,255,0.7)',
+              color: 'rgba(255,255,255,0.7)',
+
+              '&:hover': {
+                color: GOLD,
+                backgroundColor: `${GOLD}12`,
+              },
             }}
           >
             <CloseIcon fontSize="small" />
@@ -854,15 +884,12 @@ function NavigationBar({ cartItemCount }) {
         <DialogContent
           dividers
           sx={{
-            borderColor:
-              'rgba(245,158,11,0.15)',
+            borderColor: `${GOLD}20`,
           }}
         >
           <Stack spacing={2}>
             <TextField
-              inputRef={
-                mobileSearchFieldRef
-              }
+              inputRef={mobileSearchFieldRef}
               autoFocus
               variant="outlined"
               value={searchQuery}
@@ -874,23 +901,20 @@ function NavigationBar({ cartItemCount }) {
                   color: '#fff',
 
                   '& fieldset': {
-                    borderColor:
-                      'rgba(245,158,11,0.25)',
+                    borderColor: `${GOLD}35`,
                   },
 
                   '&:hover fieldset': {
-                    borderColor:
-                      'rgba(245,158,11,0.55)',
+                    borderColor: `${GOLD}70`,
                   },
 
                   '&.Mui-focused fieldset': {
-                    borderColor: '#f59e0b',
+                    borderColor: GOLD,
                   },
                 },
 
                 '& input::placeholder': {
-                  color:
-                    'rgba(255,255,255,0.4)',
+                  color: 'rgba(255,255,255,0.4)',
                   opacity: 1,
                 },
               }}
@@ -899,7 +923,7 @@ function NavigationBar({ cartItemCount }) {
                   <InputAdornment position="start">
                     <SearchIcon
                       sx={{
-                        color: '#f59e0b',
+                        color: GOLD,
                       }}
                     />
                   </InputAdornment>
@@ -911,37 +935,29 @@ function NavigationBar({ cartItemCount }) {
               <Box
                 sx={{
                   display: 'flex',
-
-                  justifyContent:
-                    'center',
-
+                  justifyContent: 'center',
                   py: 2,
                 }}
               >
                 <CircularProgress
                   size={24}
                   sx={{
-                    color: '#f59e0b',
+                    color: GOLD,
                   }}
                 />
               </Box>
             ) : searchResults.length > 0 ? (
               <SearchResults
                 results={searchResults}
-                onResultClick={
-                  handleSearchResultClick
-                }
-                setSearchResults={
-                  setSearchResults
-                }
+                onResultClick={handleSearchResultClick}
+                setSearchResults={setSearchResults}
                 variant="modal"
               />
             ) : searchQuery.trim() ? (
               <Typography
                 variant="body2"
                 sx={{
-                  color:
-                    'rgba(255,255,255,0.55)',
+                  color: 'rgba(255,255,255,0.55)',
                 }}
               >
                 No products matched your search yet.
@@ -950,8 +966,7 @@ function NavigationBar({ cartItemCount }) {
               <Typography
                 variant="body2"
                 sx={{
-                  color:
-                    'rgba(255,255,255,0.55)',
+                  color: 'rgba(255,255,255,0.55)',
                 }}
               >
                 Start typing to explore our catalog.
